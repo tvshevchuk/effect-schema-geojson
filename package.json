@@ -1,6 +1,6 @@
 {
   "name": "effect-schema-geojson",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "Effect Schema for GeoJSON types - comprehensive validation and parsing library",
   "keywords": [
