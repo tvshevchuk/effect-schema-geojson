@@ -42,7 +42,11 @@
     "prepublishOnly": "npm run build && npm run test",
     "deploy": "./scripts/deploy.sh",
     "deploy:github": "git push -u origin main",
-    "deploy:npm": "npm publish"
+    "deploy:npm": "npm publish",
+    "version:update": "./scripts/version-update.sh",
+    "version:patch": "npm version patch --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
+    "version:minor": "npm version minor --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
+    "version:major": "npm version major --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\""
   },
   "peerDependencies": {
     "effect": ">=3.10.0"

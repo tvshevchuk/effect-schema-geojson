@@ -1,0 +1,66 @@
+name: Publish to NPM
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags like v1.0.0, v1.2.3, etc.
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run tests
+        run: npm run test
+        
+      - name: Build project
+        run: npm run build
+        
+      - name: Verify package
+        run: npm pack --dry-run
+        
+      - name: Setup NPM authentication
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+        
+      - name: Publish to NPM
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            ## What's Changed
+            
+            This release includes the latest changes to effect-schema-geojson.
+            
+            ## Installation
+            
+            ```bash
+            npm install effect-schema-geojson effect
+            ```
+            
+            ## Links
+            
+            - [NPM Package](https://www.npmjs.com/package/effect-schema-geojson)
+            - [GitHub Repository](https://github.com/tvshevchuk/effect-schema-geojson)
+          draft: false
+          prerelease: false
