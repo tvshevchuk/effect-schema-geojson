@@ -100,7 +100,7 @@ echo -e "${GREEN}✅ Version updated to: ${new_version}${NC}"
 
 # Run tests
 echo -e "${BLUE}🧪 Running tests...${NC}"
-if npm run test; then
+if pnpm run test; then
     echo -e "${GREEN}✅ Tests passed!${NC}"
 else
     echo -e "${RED}❌ Tests failed. Please fix issues before proceeding.${NC}"
@@ -111,7 +111,7 @@ fi
 
 # Build the project
 echo -e "${BLUE}🔨 Building project...${NC}"
-if npm run build; then
+if pnpm run build; then
     echo -e "${GREEN}✅ Build successful!${NC}"
 else
     echo -e "${RED}❌ Build failed. Please fix issues before proceeding.${NC}"

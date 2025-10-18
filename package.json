@@ -1,6 +1,6 @@
 {
   "name": "effect-schema-geojson",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": false,
   "description": "Effect Schema for GeoJSON types - comprehensive validation and parsing library",
   "keywords": [
@@ -39,14 +39,14 @@
     "dev": "tsdown --watch",
     "test": "npx tsx tests/basic.test.ts",
     "example": "npx tsx examples/basic.ts",
-    "prepublishOnly": "npm run build && npm run test",
+    "prepublishOnly": "pnpm run build && pnpm run test",
     "deploy": "./scripts/deploy.sh",
     "deploy:github": "git push -u origin main",
     "deploy:npm": "npm publish",
     "version:update": "./scripts/version-update.sh",
-    "version:patch": "npm version patch --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
-    "version:minor": "npm version minor --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
-    "version:major": "npm version major --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\""
+    "version:patch": "pnpm version patch --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
+    "version:minor": "pnpm version minor --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
+    "version:major": "pnpm version major --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\""
   },
   "peerDependencies": {
     "effect": ">=3.10.0"

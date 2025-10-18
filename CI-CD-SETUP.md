@@ -5,7 +5,7 @@ This guide explains how to set up automatic deployment to NPM using GitHub Actio
 ## Overview
 
 The CI/CD pipeline automatically:
-- ✅ Runs tests and builds the project
+- ✅ Runs tests and builds the project using pnpm
 - ✅ Publishes to NPM when a version tag is pushed
 - ✅ Creates GitHub releases
 - ✅ Validates package before publishing
@@ -32,7 +32,7 @@ The CI/CD pipeline automatically:
 
 The workflow file is already created at `.github/workflows/npm-publish.yml`. It will:
 - Trigger on version tags (e.g., `v1.0.0`)
-- Run tests and build
+- Run tests and build using pnpm
 - Publish to NPM
 - Create GitHub releases
 
@@ -82,10 +82,10 @@ The CI/CD pipeline triggers on:
 ## What Happens During Deployment
 
 1. **Checkout**: Gets the latest code
-2. **Setup**: Installs Node.js and dependencies
-3. **Test**: Runs `npm run test`
-4. **Build**: Runs `npm run build`
-5. **Verify**: Checks package with `npm pack --dry-run`
+2. **Setup**: Installs Node.js, pnpm, and dependencies
+3. **Test**: Runs `pnpm run test`
+4. **Build**: Runs `pnpm run build`
+5. **Verify**: Checks package with `pnpm pack --dry-run`
 6. **Publish**: Publishes to NPM using your token
 7. **Release**: Creates GitHub release with changelog
 
@@ -106,11 +106,11 @@ The CI/CD pipeline triggers on:
 
 2. **Tests Failing**
    - Fix test issues locally first
-   - Run `npm run test` to verify
+   - Run `pnpm run test` to verify
 
 3. **Build Failing**
    - Check TypeScript errors
-   - Run `npm run build` locally
+   - Run `pnpm run build` locally
 
 4. **Package Already Exists**
    - Version already published to NPM
@@ -120,7 +120,7 @@ The CI/CD pipeline triggers on:
 
 1. Check GitHub Actions logs
 2. Verify NPM token permissions
-3. Test locally with `npm run test && npm run build`
+3. Test locally with `pnpm run test && pnpm run build`
 4. Check package.json version format
 
 ## Security Notes
