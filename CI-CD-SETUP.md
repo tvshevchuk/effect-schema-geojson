@@ -79,6 +79,23 @@ The CI/CD pipeline triggers on:
 - **Version tags**: `v*` (e.g., `v1.0.0`, `v1.2.3`)
 - **Manual trigger**: Go to Actions tab → "Publish to NPM" → "Run workflow"
 
+### Manual Workflow Options
+
+When running manually, you can configure:
+
+1. **Version**: Specify a custom version (e.g., `0.1.3`)
+2. **Skip Tests**: Skip running tests (useful for hotfixes)
+3. **Dry Run**: Validate package without publishing (great for testing)
+
+### How to Run Manually
+
+1. Go to your GitHub repository
+2. Click "Actions" tab
+3. Select "Publish to NPM" workflow
+4. Click "Run workflow"
+5. Choose branch and configure options
+6. Click "Run workflow"
+
 ## What Happens During Deployment
 
 1. **Checkout**: Gets the latest code
