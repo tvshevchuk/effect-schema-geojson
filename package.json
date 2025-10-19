@@ -39,7 +39,7 @@
     "lint": "biome check .",
     "lint:fix": "biome format . --write",
     "dev": "tsdown --watch",
-    "test": "npx tsx tests/basic.test.ts",
+    "test": "vitest tests/basic.test.ts",
     "example": "npx tsx examples/basic.ts",
     "prepublishOnly": "pnpm run build && pnpm run test",
     "version:update": "./scripts/version-update.sh",
@@ -54,7 +54,8 @@
     "@biomejs/biome": "2.2.6",
     "@types/geojson": "7946.0.16",
     "@types/node": "24.7.2",
-    "tsdown": "0.15.8"
+    "tsdown": "0.15.8",
+    "vitest": "3.2.4"
   },
   "engines": {
     "node": ">=18.0.0"
