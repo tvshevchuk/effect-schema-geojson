@@ -58,7 +58,7 @@ jobs:
         run: pnpm run build
         
       - name: Verify package
-        run: pnpm pack --dry-run
+        run: pnpm pack
         
       - name: Push to GitHub
         if: github.event.inputs.confirm_github_push == 'true'
@@ -75,7 +75,7 @@ jobs:
         if: github.event.inputs.confirm_npm_publish == 'true'
         run: |
           echo "Publishing to NPM..."
-          pnpm publish
+          pnpm publish --no-git-checks
           echo "Successfully published to NPM!"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
