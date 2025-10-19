@@ -27,6 +27,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
           
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -39,10 +40,6 @@ jobs:
         
       - name: Verify package
         run: pnpm pack
-        
-      - name: Setup NPM authentication
-        if: github.event.inputs.confirm_npm_publish == 'true'
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
         
       - name: Publish to NPM
         if: github.event.inputs.confirm_npm_publish == 'true'
