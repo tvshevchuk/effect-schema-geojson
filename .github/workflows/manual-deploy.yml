@@ -1,0 +1,117 @@
+name: Manual Deploy
+
+on:
+  workflow_dispatch:  # Allows manual triggering from GitHub Actions UI
+    inputs:
+      confirm_github_push:
+        description: 'Confirm GitHub push'
+        required: true
+        type: boolean
+        default: false
+      confirm_npm_publish:
+        description: 'Confirm NPM publish'
+        required: true
+        type: boolean
+        default: false
+      commit_message:
+        description: 'Commit message for any uncommitted changes (optional)'
+        required: false
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for git operations
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Ensure pnpm is available
+        run: |
+          # Prefer corepack if available, otherwise install pnpm via npm
+          if command -v pnpm >/dev/null 2>&1; then
+            echo "pnpm already available: $(pnpm --version)"
+            exit 0
+          fi
+
+          if command -v corepack >/dev/null 2>&1; then
+            echo "Enabling corepack and preparing pnpm..."
+            corepack enable
+            corepack prepare pnpm@latest --activate
+          elif command -v npm >/dev/null 2>&1; then
+            echo "Installing pnpm globally via npm..."
+            npm install -g pnpm@latest
+          else
+            echo "pnpm not found and cannot be installed (no corepack or npm)." >&2
+            exit 1
+          fi
+
+          echo "pnpm version: $(pnpm --version)"
+        
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Handle uncommitted changes
+        if: github.event.inputs.commit_message != ''
+        run: |
+          echo "Committing uncommitted changes..."
+          git add .
+          git commit -m "${{ github.event.inputs.commit_message }}" || echo "No changes to commit"
+        
+      - name: Run tests
+        run: pnpm run test
+        
+      - name: Build project
+        run: pnpm run build
+        
+      - name: Verify package
+        run: pnpm pack --dry-run
+        
+      - name: Push to GitHub
+        if: github.event.inputs.confirm_github_push == 'true'
+        run: |
+          echo "Pushing to GitHub..."
+          git push -u origin ${{ github.ref_name }}
+          echo "Successfully pushed to GitHub!"
+        
+      - name: Setup NPM authentication
+        if: github.event.inputs.confirm_npm_publish == 'true'
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+        
+      - name: Publish to NPM
+        if: github.event.inputs.confirm_npm_publish == 'true'
+        run: |
+          echo "Publishing to NPM..."
+          pnpm publish
+          echo "Successfully published to NPM!"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Deployment Summary
+        run: |
+          echo "🎉 Deployment Complete!"
+          echo "======================="
+          if [ "${{ github.event.inputs.confirm_github_push }}" == "true" ]; then
+            echo "• GitHub: https://github.com/tvshevchuk/effect-schema-geojson"
+          fi
+          if [ "${{ github.event.inputs.confirm_npm_publish }}" == "true" ]; then
+            echo "• NPM: https://www.npmjs.com/package/effect-schema-geojson"
+          fi
+          echo ""
+          echo "Installation command:"
+          echo "pnpm add effect-schema-geojson effect"
+          echo ""
+          echo "Thank you for using Effect Schema GeoJSON! 🚀"

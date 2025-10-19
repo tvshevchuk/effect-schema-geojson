@@ -43,7 +43,29 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-          
+
+      - name: Ensure pnpm is available
+        run: |
+          # Prefer corepack if available, otherwise install pnpm via npm
+          if command -v pnpm >/dev/null 2>&1; then
+            echo "pnpm already available: $(pnpm --version)"
+            exit 0
+          fi
+
+          if command -v corepack >/dev/null 2>&1; then
+            echo "Enabling corepack and preparing pnpm..."
+            corepack enable
+            corepack prepare pnpm@latest --activate
+          elif command -v npm >/dev/null 2>&1; then
+            echo "Installing pnpm globally via npm..."
+            npm install -g pnpm@latest
+          else
+            echo "pnpm not found and cannot be installed (no corepack or npm)." >&2
+            exit 1
+          fi
+
+          echo "pnpm version: $(pnpm --version)"
+        
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
