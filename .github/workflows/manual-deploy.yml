@@ -3,20 +3,11 @@ name: Manual Deploy
 on:
   workflow_dispatch:  # Allows manual triggering from GitHub Actions UI
     inputs:
-      confirm_github_push:
-        description: 'Confirm GitHub push'
-        required: true
-        type: boolean
-        default: false
       confirm_npm_publish:
         description: 'Confirm NPM publish'
         required: true
         type: boolean
         default: false
-      commit_message:
-        description: 'Commit message for any uncommitted changes (optional)'
-        required: false
-        type: string
 
 jobs:
   deploy:
@@ -25,8 +16,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Fetch full history for git operations
         
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -42,15 +31,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         
-      - name: Handle uncommitted changes
-        if: github.event.inputs.commit_message != ''
-        run: |
-          echo "Committing uncommitted changes..."
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "${{ github.event.inputs.commit_message }}" || echo "No changes to commit"
-        
       - name: Run tests
         run: pnpm run test
         
@@ -59,13 +39,6 @@ jobs:
         
       - name: Verify package
         run: pnpm pack
-        
-      - name: Push to GitHub
-        if: github.event.inputs.confirm_github_push == 'true'
-        run: |
-          echo "Pushing to GitHub..."
-          git push -u origin ${{ github.ref_name }}
-          echo "Successfully pushed to GitHub!"
         
       - name: Setup NPM authentication
         if: github.event.inputs.confirm_npm_publish == 'true'
@@ -84,9 +57,6 @@ jobs:
         run: |
           echo "🎉 Deployment Complete!"
           echo "======================="
-          if [ "${{ github.event.inputs.confirm_github_push }}" == "true" ]; then
-            echo "• GitHub: https://github.com/tvshevchuk/effect-schema-geojson"
-          fi
           if [ "${{ github.event.inputs.confirm_npm_publish }}" == "true" ]; then
             echo "• NPM: https://www.npmjs.com/package/effect-schema-geojson"
           fi
