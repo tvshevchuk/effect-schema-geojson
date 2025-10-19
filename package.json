@@ -1,67 +1,65 @@
 {
-	"name": "effect-schema-geojson",
-	"version": "0.1.3",
-	"private": false,
-	"description": "Effect Schema for GeoJSON types - comprehensive validation and parsing library",
-	"keywords": [
-		"effect",
-		"schema",
-		"geojson",
-		"validation",
-		"typescript",
-		"gis",
-		"geometry",
-		"spatial",
-		"maps"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/tvshevchuk/effect-schema-geojson.git"
-	},
-	"homepage": "https://github.com/tvshevchuk/effect-schema-geojson#readme",
-	"bugs": {
-		"url": "https://github.com/tvshevchuk/effect-schema-geojson/issues"
-	},
-	"license": "MIT",
-	"type": "module",
-	"files": [
-		"dist"
-	],
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": "./dist/index.js",
-		"./package.json": "./package.json"
-	},
-	"scripts": {
-		"build": "tsdown",
-		"lint": "biome check .",
-		"dev": "tsdown --watch",
-		"test": "npx tsx tests/basic.test.ts",
-		"example": "npx tsx examples/basic.ts",
-		"prepublishOnly": "pnpm run build && pnpm run test",
-		"deploy": "./scripts/deploy.sh",
-		"deploy:github": "git push -u origin main",
-		"deploy:npm": "npm publish",
-		"version:update": "./scripts/version-update.sh",
-		"version:patch": "pnpm version patch --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
-		"version:minor": "pnpm version minor --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
-		"version:major": "pnpm version major --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\""
-	},
-	"peerDependencies": {
-		"effect": ">=3.10.0"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.2.6",
-		"@types/geojson": "7946.0.16",
-		"@types/node": "24.7.2",
-		"tsdown": "0.15.8"
-	},
-	"engines": {
-		"node": ">=18.0.0"
-	},
-	"publishConfig": {
-		"access": "public"
-	}
+  "name": "effect-schema-geojson",
+  "version": "0.2.0",
+  "private": false,
+  "description": "Effect Schema for GeoJSON types - comprehensive validation and parsing library",
+  "keywords": [
+    "effect",
+    "schema",
+    "geojson",
+    "validation",
+    "typescript",
+    "gis",
+    "geometry",
+    "spatial",
+    "maps"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tvshevchuk/effect-schema-geojson.git"
+  },
+  "homepage": "https://github.com/tvshevchuk/effect-schema-geojson#readme",
+  "bugs": {
+    "url": "https://github.com/tvshevchuk/effect-schema-geojson/issues"
+  },
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "lint": "biome check .",
+    "lint:fix": "biome format . --write",
+    "dev": "tsdown --watch",
+    "test": "npx tsx tests/basic.test.ts",
+    "example": "npx tsx examples/basic.ts",
+    "prepublishOnly": "pnpm run build && pnpm run test",
+    "version:update": "./scripts/version-update.sh",
+    "version:patch": "pnpm version patch --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
+    "version:minor": "pnpm version minor --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\"",
+    "version:major": "pnpm version major --no-git-tag-version && git add package.json && git commit -m \"chore: bump version\" && git tag \"v$(node -p 'require(\"./package.json\").version')\" && git push origin main && git push origin \"v$(node -p 'require(\"./package.json\").version')\""
+  },
+  "peerDependencies": {
+    "effect": ">=3.10.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.6",
+    "@types/geojson": "7946.0.16",
+    "@types/node": "24.7.2",
+    "tsdown": "0.15.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
