@@ -1,6 +1,9 @@
 import { Effect } from "effect";
 import {
+  type Feature,
+  type GeoJSON,
   isValidGeoJSON,
+  type Point,
   parseFeature,
   parseGeoJSON,
   parsePoint,
@@ -18,7 +21,7 @@ console.log("Is valid GeoJSON:", isValidGeoJSON(pointData));
 // Example 2: Parse Point with Effect
 const parsePointExample = async () => {
   try {
-    const result = await Effect.runPromise(parsePoint(pointData) as any);
+    const result: Point = await Effect.runPromise(parsePoint(pointData));
     console.log("Parsed Point:", result);
   } catch (error) {
     console.error("Parse error:", error);
@@ -138,13 +141,13 @@ const handleErrorExample = async () => {
   console.log("\n=== Error Handling Example ===");
 
   const program = parseGeoJSON(invalidData).pipe(
-    Effect.catchAll((error: any) => {
+    Effect.catchAll((error) => {
       console.error("Validation failed:", error.message);
       return Effect.succeed(null);
-    }) as any,
+    }),
   );
 
-  const result = await Effect.runPromise(program);
+  const result: GeoJSON | null = await Effect.runPromise(program);
   console.log("Result after error handling:", result);
 };
 
@@ -175,18 +178,12 @@ async function runExamples() {
   // Example 9: Parse and work with the result
   console.log("\n=== Working with parsed results ===");
   try {
-    const parsedFeature: any = await Effect.runPromise(
-      parseFeature(featureData) as any,
+    const parsedFeature: Feature = await Effect.runPromise(
+      parseFeature(featureData),
     );
     console.log("Feature name:", parsedFeature.properties?.name);
-    if (
-      parsedFeature.geometry &&
-      (parsedFeature.geometry as any).type === "Point"
-    ) {
-      console.log(
-        "Feature coordinates:",
-        (parsedFeature.geometry as any).coordinates,
-      );
+    if (parsedFeature.geometry && parsedFeature.geometry.type === "Point") {
+      console.log("Feature coordinates:", parsedFeature.geometry.coordinates);
     }
   } catch (error) {
     console.error("Failed to parse feature:", error);

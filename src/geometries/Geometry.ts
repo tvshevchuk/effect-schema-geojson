@@ -1,20 +1,6 @@
 import { Schema } from "effect";
+import { BasicGeometry } from "./BasicGeometry.ts";
 import { GeometryCollection } from "./GeometryCollection.ts";
-import { LineString } from "./LineString.ts";
-import { MultiLineString } from "./MultiLineString.ts";
-import { MultiPoint } from "./MultiPoint.ts";
-import { MultiPolygon } from "./MultiPolygon.ts";
-import { Point } from "./Point.ts";
-import { Polygon } from "./Polygon.ts";
-
-const BasicGeometry = Schema.Union(
-  Point,
-  MultiPoint,
-  LineString,
-  MultiLineString,
-  Polygon,
-  MultiPolygon,
-);
 
 export const Geometry = Schema.Union(
   BasicGeometry,

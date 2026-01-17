@@ -14,3 +14,5 @@ export type Polygon = typeof Polygon.Type;
 export const parsePolygon = Schema.decodeUnknown(Polygon);
 
 export const isValidPolygon = Schema.is(Polygon);
+
+export const encodePolygon = Schema.encode(Polygon);

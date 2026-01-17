@@ -1,21 +1,6 @@
 import { Schema } from "effect";
 import { BoundingBox } from "../primitives/index.ts";
-import { LineString } from "./LineString.ts";
-import { MultiLineString } from "./MultiLineString.ts";
-import { MultiPoint } from "./MultiPoint.ts";
-import { MultiPolygon } from "./MultiPolygon.ts";
-import { Point } from "./Point.ts";
-import { Polygon } from "./Polygon.ts";
-
-// GeometryCollection can only contain basic geometries, not other GeometryCollections
-const BasicGeometry = Schema.Union(
-  Point,
-  MultiPoint,
-  LineString,
-  MultiLineString,
-  Polygon,
-  MultiPolygon,
-);
+import { BasicGeometry } from "./BasicGeometry.ts";
 
 export const GeometryCollection = Schema.Struct({
   type: Schema.Literal("GeometryCollection"),
@@ -27,3 +12,9 @@ export const GeometryCollection = Schema.Struct({
 });
 
 export type GeometryCollection = typeof GeometryCollection.Type;
+
+export const parseGeometryCollection = Schema.decodeUnknown(GeometryCollection);
+
+export const isValidGeometryCollection = Schema.is(GeometryCollection);
+
+export const encodeGeometryCollection = Schema.encode(GeometryCollection);

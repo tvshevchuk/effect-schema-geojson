@@ -14,3 +14,5 @@ export type Point = typeof Point.Type;
 export const parsePoint = Schema.decodeUnknown(Point);
 
 export const isValidPoint = Schema.is(Point);
+
+export const encodePoint = Schema.encode(Point);

@@ -1,3 +1,4 @@
+export * from "./BasicGeometry.ts";
 export * from "./Geometry.ts";
 export * from "./GeometryCollection.ts";
 export * from "./LineString.ts";

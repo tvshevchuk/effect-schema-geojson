@@ -14,3 +14,5 @@ export type LineString = typeof LineString.Type;
 export const parseLineString = Schema.decodeUnknown(LineString);
 
 export const isValidLineString = Schema.is(LineString);
+
+export const encodeLineString = Schema.encode(LineString);

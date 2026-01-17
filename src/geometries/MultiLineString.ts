@@ -10,3 +10,9 @@ export const MultiLineString = Schema.Struct({
 });
 
 export type MultiLineString = typeof MultiLineString.Type;
+
+export const parseMultiLineString = Schema.decodeUnknown(MultiLineString);
+
+export const isValidMultiLineString = Schema.is(MultiLineString);
+
+export const encodeMultiLineString = Schema.encode(MultiLineString);

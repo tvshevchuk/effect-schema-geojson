@@ -10,3 +10,9 @@ export const MultiPolygon = Schema.Struct({
 });
 
 export type MultiPolygon = typeof MultiPolygon.Type;
+
+export const parseMultiPolygon = Schema.decodeUnknown(MultiPolygon);
+
+export const isValidMultiPolygon = Schema.is(MultiPolygon);
+
+export const encodeMultiPolygon = Schema.encode(MultiPolygon);

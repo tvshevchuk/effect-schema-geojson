@@ -24,8 +24,8 @@ yarn add effect-schema-geojson effect
 - ✅ All geometry types: Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection
 - ✅ Feature and FeatureCollection support
 - ✅ Bounding box validation
+- ✅ LinearRing closure validation (first and last positions must match)
 - ✅ Type-safe parsing and validation
-- ✅ JSON Schema generation
 - ✅ Built with Effect Schema for powerful composition and error handling
 
 ## Quick Start
@@ -262,9 +262,13 @@ All parsing functions return `Effect<T, ParseError>` for robust error handling:
 - `parseGeometry(input: unknown)` - Parse any geometry
 - `parseFeature(input: unknown)` - Parse a feature
 - `parseFeatureCollection(input: unknown)` - Parse a feature collection
+- `parseGeometryCollection(input: unknown)` - Parse a geometry collection
 - `parsePoint(input: unknown)` - Parse a point geometry
+- `parseMultiPoint(input: unknown)` - Parse a multipoint geometry
 - `parseLineString(input: unknown)` - Parse a linestring geometry
+- `parseMultiLineString(input: unknown)` - Parse a multilinestring geometry
 - `parsePolygon(input: unknown)` - Parse a polygon geometry
+- `parseMultiPolygon(input: unknown)` - Parse a multipolygon geometry
 
 #### Validation Functions
 
@@ -274,18 +278,29 @@ Type guard functions that return `boolean`:
 - `isValidGeometry(input: unknown)` - Check if input is valid geometry
 - `isValidFeature(input: unknown)` - Check if input is valid feature
 - `isValidFeatureCollection(input: unknown)` - Check if input is valid feature collection
+- `isValidGeometryCollection(input: unknown)` - Check if input is valid geometry collection
 - `isValidPoint(input: unknown)` - Check if input is valid point
+- `isValidMultiPoint(input: unknown)` - Check if input is valid multipoint
 - `isValidLineString(input: unknown)` - Check if input is valid linestring
+- `isValidMultiLineString(input: unknown)` - Check if input is valid multilinestring
 - `isValidPolygon(input: unknown)` - Check if input is valid polygon
+- `isValidMultiPolygon(input: unknown)` - Check if input is valid multipolygon
 
 #### Encoding Functions
 
 For serialization back to unknown/JSON:
 
-- `encodeGeoJSON(input: GeoJSONType)` - Encode GeoJSON to unknown
-- `encodeGeometry(input: GeometryType)` - Encode geometry to unknown
-- `encodeFeature(input: FeatureType)` - Encode feature to unknown
-- `encodeFeatureCollection(input: FeatureCollectionType)` - Encode feature collection to unknown
+- `encodeGeoJSON(input: GeoJSON)` - Encode GeoJSON to unknown
+- `encodeGeometry(input: Geometry)` - Encode geometry to unknown
+- `encodeFeature(input: Feature)` - Encode feature to unknown
+- `encodeFeatureCollection(input: FeatureCollection)` - Encode feature collection to unknown
+- `encodeGeometryCollection(input: GeometryCollection)` - Encode geometry collection to unknown
+- `encodePoint(input: Point)` - Encode point to unknown
+- `encodeMultiPoint(input: MultiPoint)` - Encode multipoint to unknown
+- `encodeLineString(input: LineString)` - Encode linestring to unknown
+- `encodeMultiLineString(input: MultiLineString)` - Encode multilinestring to unknown
+- `encodePolygon(input: Polygon)` - Encode polygon to unknown
+- `encodeMultiPolygon(input: MultiPolygon)` - Encode multipolygon to unknown
 
 ### Error Handling
 
@@ -340,15 +355,21 @@ The library exports TypeScript types for all GeoJSON objects:
 
 ```typescript
 import type {
-  GeoJSONType,
-  GeometryType,
-  PointType,
-  LineStringType,
-  PolygonType,
-  FeatureType,
-  FeatureCollectionType,
+  GeoJSON,
+  Geometry,
+  BasicGeometry,
+  Point,
+  MultiPoint,
+  LineString,
+  MultiLineString,
+  Polygon,
+  MultiPolygon,
+  GeometryCollection,
+  Feature,
+  FeatureCollection,
   Position,
-  BoundingBox
+  BoundingBox,
+  LinearRing
 } from "effect-schema-geojson";
 ```
 
@@ -369,15 +390,11 @@ const MyDataSchema = Schema.Struct({
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit issues and pull requests on [GitHub](https://github.com/tvshevchuk/effect-schema-geojson).
 
 ## License
 
 MIT License - see LICENSE file for details.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit issues and pull requests on [GitHub](https://github.com/tvshevchuk/effect-schema-geojson).
 
 ## Related
 

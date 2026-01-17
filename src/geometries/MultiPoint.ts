@@ -10,3 +10,9 @@ export const MultiPoint = Schema.Struct({
 });
 
 export type MultiPoint = typeof MultiPoint.Type;
+
+export const parseMultiPoint = Schema.decodeUnknown(MultiPoint);
+
+export const isValidMultiPoint = Schema.is(MultiPoint);
+
+export const encodeMultiPoint = Schema.encode(MultiPoint);
