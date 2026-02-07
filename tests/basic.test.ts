@@ -110,6 +110,16 @@ describe("Effect Schema GeoJSON", () => {
 
       expect(isValidPoint(invalidBbox)).toBe(false);
     });
+
+    it("should fail validation for bounding box with 5 elements", () => {
+      const invalidBbox = {
+        type: "Point",
+        coordinates: [102.0, 0.5],
+        bbox: [102.0, 0.5, 10.0, 20.0, 30.0],
+      };
+
+      expect(isValidPoint(invalidBbox)).toBe(false);
+    });
   });
 
   describe("LineString", () => {
@@ -588,6 +598,25 @@ describe("Effect Schema GeoJSON", () => {
         parseGeometryCollection(geometryCollectionData),
       );
       expect(result.geometries.length).toBe(6);
+    });
+
+    it("should validate nested GeometryCollection", async () => {
+      const geometryCollectionData = {
+        type: "GeometryCollection",
+        geometries: [
+          {
+            type: "GeometryCollection",
+            geometries: [],
+          },
+        ],
+      };
+
+      expect(isValidGeometryCollection(geometryCollectionData)).toBe(true);
+
+      const result = await Effect.runPromise(
+        parseGeometryCollection(geometryCollectionData),
+      );
+      expect(result.geometries.length).toBe(1);
     });
 
     it("should validate empty GeometryCollection", async () => {
